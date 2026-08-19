@@ -16,7 +16,7 @@ export default function Login() {
     setError("");
     setBusy(true);
     try {
-      const { data } = await api.post("/auth/login", { email, password });
+      const { data } = await api.post("/login", { email, password });
       login(data.token, data.user, data.player);
       navigate("/");
     } catch (err) {
