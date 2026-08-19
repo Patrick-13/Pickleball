@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { z } from "zod";
 import User from "../models/User.js";
 import Player from "../models/Player.js";
+import Paddle from "../models/Paddle.js";
 
 const registerSchema = z.object({
   name: z.string().min(2),
