@@ -6,23 +6,46 @@ import authRoutes from "./routes/authRoutes.js";
 import playerRoutes from "./routes/playerRoutes.js";
 import gameRoutes from "./routes/gameRoutes.js";
 import leaderboardRoutes from "./routes/leaderboardRoutes.js";
-import trainingRoutes from "./routes/trainingRoutes.js";
-import paddleRoutes from "./routes/paddleRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
 
 await connectDB();
 
 const app = express();
-app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://pickleball-khaki-six.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests without an origin
+      // (Postman, server-to-server, etc.)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`CORS blocked: ${origin}`));
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+
+
 app.use(express.json());
 
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/players", playerRoutes);
 app.use("/api/games", gameRoutes);
+app.use("/api/players/me");
 app.use("/api/leaderboard", leaderboardRoutes);
-app.use("/api/training", trainingRoutes);
-app.use("/api/paddles", paddleRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
