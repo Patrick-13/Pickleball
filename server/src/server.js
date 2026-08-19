@@ -7,6 +7,8 @@ import authRoutes from "./routes/authRoutes.js";
 import playerRoutes from "./routes/playerRoutes.js";
 import gameRoutes from "./routes/gameRoutes.js";
 import leaderboardRoutes from "./routes/leaderboardRoutes.js";
+import trainingRoutes from "./routes/trainingRoutes.js";
+import paddleRoutes from "./routes/paddleRoutes.js";
 
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
 
@@ -47,6 +49,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/players", playerRoutes);
 app.use("/api/games", gameRoutes);
 app.use("/api/leaderboard", leaderboardRoutes);
+app.use("/api/training", trainingRoutes);
+app.use("/api/paddles", paddleRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
