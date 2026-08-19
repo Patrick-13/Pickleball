@@ -12,31 +12,7 @@ await connectDB();
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://pickleball-khaki-six.vercel.app",
-];
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests without an origin
-      // (Postman, server-to-server, etc.)
-      if (!origin) {
-        return callback(null, true);
-      }
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error(`CORS blocked: ${origin}`));
-    },
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  }),
-);
-
+app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
 
 app.use(express.json());
 
